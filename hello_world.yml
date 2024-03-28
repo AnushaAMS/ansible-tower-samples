@@ -1,7 +1,15 @@
-- name: Hello World Sample
-  hosts: all
-  tasks:
-    - name: Hello Message
-      debug:
-        msg: "Hello World!"
+---
+- name: Update AWS EventBridge Constant
+  hosts: localhost
+  gather_facts: no
+  vars:
+    constant_json: "{{ lookup('env', 'CONSTANT_JSON') | from_json }}"
 
+  tasks:
+    - name: Update tgt_accounts ID
+      set_fact:
+        constant_json.tgt_accounts: {\"195159818670\":\"195159818670\",}
+
+    - name: Print the updated JSON
+      debug:
+        msg: "{{ constant_json }}"
